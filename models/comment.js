@@ -9,9 +9,15 @@ module.exports = (sequelize, DataTypes) => {
     created: DataTypes.DATE,
     status: DataTypes.STRING,
     __v: DataTypes.STRING
-  }, {});
+  }, {
+    paranoid: true,
+    timestamps: true
+  });
   comment.associate = function(models) {
-    // associations can be defined here
+    let { blog } = models;
+
+    comment.belongsTo(blog, { as: 'blog', foreignKey: 'articleId' });
+    comment.belongsTo(comment, { as: 'childComment', foreignKey: 'parentId' });
   };
   return comment;
 };
