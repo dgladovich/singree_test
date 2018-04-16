@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     authorName: DataTypes.STRING,
     created: DataTypes.DATE,
     status: DataTypes.STRING,
-    _v: DataTypes.INTEGER
+    _v: DataTypes.INTEGER,
+    deletedAt: DataTypes.DATE
   }, {
     paranoid: true,
     timestamps: true

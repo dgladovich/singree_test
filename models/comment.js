@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     parentId: DataTypes.STRING,
     created: DataTypes.DATE,
     status: DataTypes.STRING,
-    __v: DataTypes.STRING
+    __v: DataTypes.STRING,
+    deletedAt: DataTypes.DATE
   }, {
     paranoid: true,
     timestamps: true
