@@ -2,16 +2,16 @@
 module.exports = (sequelize, DataTypes) => {
   var blog = sequelize.define('blog', {
     _id: DataTypes.STRING,
-    label: DataTypes.STRINGM,
+    label: DataTypes.STRING,
     title: DataTypes.STRING,
     metaTitle: DataTypes.STRING,
-    metaDescription: DataTypes.STING,
+    metaDescription: DataTypes.STRING,
     metaKeywords: DataTypes.STRING,
     body: DataTypes.STRING,
     author: DataTypes.STRING,
     authorName: DataTypes.STRING,
     created: DataTypes.DATE,
-    status: DataTypes.SRING,
+    status: DataTypes.STRING,
     _v: DataTypes.INTEGER
   }, {});
   blog.associate = function(models) {

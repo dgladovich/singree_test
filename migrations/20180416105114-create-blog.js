@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       label: {
-        type: Sequelize.STRINGM
+        type: Sequelize.STRING
       },
       title: {
         type: Sequelize.STRING
@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       metaDescription: {
-        type: Sequelize.STING
+        type: Sequelize.STRING
       },
       metaKeywords: {
         type: Sequelize.STRING
@@ -39,7 +39,7 @@ module.exports = {
         type: Sequelize.DATE
       },
       status: {
-        type: Sequelize.SRING
+        type: Sequelize.STRING
       },
       _v: {
         type: Sequelize.INTEGER
