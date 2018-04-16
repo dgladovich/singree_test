@@ -13,9 +13,14 @@ module.exports = (sequelize, DataTypes) => {
     created: DataTypes.DATE,
     status: DataTypes.STRING,
     _v: DataTypes.INTEGER
-  }, {});
+  }, {
+    paranoid: true,
+    timestamps: true
+  });
   blog.associate = function(models) {
-    // associations can be defined here
+    let { comment } = models;
+
+    blog.hasMany(comment, { as: 'comments', foreignKey: 'articleId' })
   };
   return blog;
 };
