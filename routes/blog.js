@@ -19,7 +19,7 @@ router
      })
     .get('/', (req, res) => {
         blog
-            .findAll({paranoid: false})
+            .findAll({paranoid: false, attributes: {exclude: ['deletedAt']}})
             .then((blogs)=>{
                 console.log('something go wrong')
                 res.json(blogs)
@@ -33,19 +33,57 @@ router
     .get('/:id', (req, res)=>{
         let id = req.params.id;
         blog
-            .findOne({where: {__id: id}})
+            .findOne({ paranoid: false, where: { id: id }, attributes: {exclude: ['deletedAt']} })
             .then((blg)=>{
                 res.json(blg);
             })
-            .catch((e)=>{})
+            .catch((e)=>{
+    console.error(e);
+res.status(500).send({error: 'Error while reading blog by ID.'})
+})
     })
     .post('/', (req, res)=>{
-        console.log(req.query);
+        console.log(req.body);
+        let blogBody = req.body;
 
-        //blog.create()
+        blog
+            .create(blogBody)
+            .then((blg)=>{
+                res.json(blg);
+            })
+            .catch((e)=>{
+                console.error(e);
+                res.status(500).send({error: 'Error while writing blog to database.'})
+            })
+     })
+    .put('/:id', (req, res)=>{
+        let updateFields = req.body;
+        let blogId = req.params.id;
+
+
+        blog
+            .update(updateFields, { where: { id: blogId }, paranoid: false, returning: true })
+            .then((blg)=>{
+                res.json(blg[1][0]);
+            })
+            .catch((e)=>{
+                console.error(e);
+                res.status(500).send({error: 'Error while updating blog in database.'})
+                })
     })
-    .put('/:id', (req, res)=>{})
-    .delete('/:id', (req, res)=>{})
+    .delete('/:id', (req, res)=>{
+        let blogId = req.params.id;
+
+        blog
+            .destroy({ where: { id: blogId } })
+            .then((blg)=>{
+                res.json(blg[1][0]);
+            })
+            .catch((e)=>{
+                console.error(e);
+                res.status(500).send({error: 'Error while deleting blog from database.'})
+            })
+    })
 
 
 

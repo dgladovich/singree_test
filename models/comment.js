@@ -6,10 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     articleId: DataTypes.STRING,
     text: DataTypes.STRING,
     parentId: DataTypes.STRING,
-    created: DataTypes.DATE,
     status: DataTypes.STRING,
     __v: DataTypes.STRING,
-    deletedAt: DataTypes.DATE
   }, {
     paranoid: true,
     timestamps: true

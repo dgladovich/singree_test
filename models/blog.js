@@ -10,10 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     body: DataTypes.STRING,
     author: DataTypes.STRING,
     authorName: DataTypes.STRING,
-    created: DataTypes.DATE,
     status: DataTypes.STRING,
-    _v: DataTypes.INTEGER,
-    deletedAt: DataTypes.DATE
+    _v: DataTypes.INTEGER
   }, {
     paranoid: true,
     timestamps: true
