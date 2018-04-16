@@ -6,7 +6,7 @@ const { blog } = db;
 router
     .get('/count', (req, res)=>{
         blog
-            .count()
+            .count({paranoid: false})
             .then((count)=>{
                 let cnt = {
                     count: count
@@ -19,11 +19,15 @@ router
      })
     .get('/', (req, res) => {
         blog
-            .findAll({})
+            .findAll({paranoid: false})
             .then((blogs)=>{
+                console.log('something go wrong')
                 res.json(blogs)
             })
-            .catch((e)=>{})
+            .catch((e)=>{
+                console.error(e);
+                res.status(500).send({error: 'Error while reading blogs from database.'})
+            })
 
     })
     .get('/:id', (req, res)=>{
