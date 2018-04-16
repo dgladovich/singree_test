@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "blog_user",
+    "password": "lovesaveworld",
+    "database": "blog",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "migrationStorage": "json",
+    "migrationStoragePath": "sequelizeMeta.json",
+    "migrationStorageTableName": "sequelize_meta"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "blog_user",
+    "password": "lovesaveworld",
+    "database": "blog",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
