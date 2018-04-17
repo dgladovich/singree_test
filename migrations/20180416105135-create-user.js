@@ -14,6 +14,9 @@ module.exports = {
             email: {
                 type: Sequelize.STRING
             },
+            password: {
+                type: Sequelize.STRING
+            },
             age: {
                 type: Sequelize.INTEGER
             },
@@ -27,7 +30,6 @@ module.exports = {
             }
             ,
             deletedAt: {
-                allowNull: false,
                 type: Sequelize.DATE
             }
         });

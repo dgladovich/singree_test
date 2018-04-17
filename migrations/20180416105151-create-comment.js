@@ -23,9 +23,6 @@ module.exports = {
             parentId: {
                 type: Sequelize.STRING
             },
-            created: {
-                type: Sequelize.DATE
-            },
             status: {
                 type: Sequelize.STRING
             },
@@ -41,7 +38,6 @@ module.exports = {
                 type: Sequelize.DATE
             },
             deletedAt: {
-                allowNull: false,
                 type: Sequelize.DATE
             }
         });
