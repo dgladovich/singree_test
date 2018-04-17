@@ -44,7 +44,7 @@ module.exports = {
     },
     deleteBlogById: {
         params: {
-            id: Joi.number().required()
+            id: Joi.string().required()
         }
     }
 };

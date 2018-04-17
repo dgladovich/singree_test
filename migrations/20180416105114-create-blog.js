@@ -36,7 +36,8 @@ module.exports = {
                 defaultValue: 'blog'
             },
             status: {
-                type: Sequelize.STRING
+                type: Sequelize.STRING,
+                defaultValue: 'active'
             },
             _v: {
                 type: Sequelize.INTEGER,

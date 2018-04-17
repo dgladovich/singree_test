@@ -1,47 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../models');
-const { comment } = db;
+const validate = require('express-validation');
+const validations = require('./validation/comment');
+const commentCtrl = require('../controllers/CommentController');
 
 router
-    .get('/count', (req, res)=>{
-        let params = {
+    .get('/count', validate(validations.countComments), commentCtrl.countComments)
+    .get('/', validate(validations.getAllComments), commentCtrl.getAllComments)
+    .get('/:id', validate(validations.getCommentById), commentCtrl.getCommentById)
+    .post('/', validate(validations.createComment), commentCtrl.createComment)
+    .put('/:id', validate(validations.updateCommentById), commentCtrl.updateCommentById)
+    .delete('/:id', validate(validations.deleteCommentById), commentCtrl.deleteCommentById);
 
-        }
-        comment
-                .count({where: params}).then((count)=>{
-                    let cnt = {
-                        count: count
-                    };
-                    res.json(cnt);
-                })
-                .catch((e)=>{});
-    })
-    .get('/', (req, res) => {
-        comment
-                .findAll()
-                .then((comments)=>{
-                    res.json(comments)
-                })
-                .catch((e)=>{
-                    res
-                        .status(500)
-                        .end()
-                })
-    })
-    .get('/:id', (req, res)=>{
-        let id = req.params.id;
-        comment
-            .findOne({where: {__id: id}})
-            .then((comment)=>{
-                res.json(comment);
-            })
-            .catch((e)=>{})
-     })
-    .post('/', (req, res)=>{
-        comment.update()
-    })
-    .put('/:id', (req, res)=>{})
-    .delete('/:id', (req, res)=>{})
 
 module.exports = router;

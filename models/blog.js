@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         hooks: {
           beforeDestroy: (b, opts)=>{
-              blog.update({ status: 'deleted' }, { where: {id: opts.where.id}, paranoid: false })
+              blog.update({ status: 'deleted' }, { where: {_id: opts.where._id}, paranoid: false })
           }
         },
         getterMethods: {

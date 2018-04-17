@@ -50,7 +50,7 @@ module.exports = {
     getBlogById(req, res) {
         let id = req.params.id;
         blog
-            .findOne({paranoid: false, where: {id: id}, attributes: {exclude: ['deletedAt']}})
+            .findOne({paranoid: false, where: {_id: id}, attributes: {exclude: ['deletedAt']}})
             .then((blg) => {
                 res.json(blg);
             })
@@ -78,7 +78,7 @@ module.exports = {
 
 
         blog
-            .update(updateFields, {where: {id: blogId}, paranoid: false, returning: true})
+            .update(updateFields, {where: {_id: blogId}, paranoid: false, returning: true})
             .then((blg) => {
                 res.json(blg[1][0]);
             })
@@ -91,18 +91,18 @@ module.exports = {
         let blogId = req.params.id;
 
         blog
-            .destroy({where: {id: blogId}, individualHooks: true})
+            .destroy({where: {_id: blogId}, individualHooks: true})
             .then((blg) => {
                 if (!blg) {
                     res.status(404)
                 } else {
                     blog
-                        .findOne({where: {id: blogId}, paranoid: false})
+                        .findOne({where: {_id: blogId}, paranoid: false})
                         .then((b) => {
                             res.json(b);
                         })
                         .catch((e) => {
-                            resr
+                            res
                                 .status(500)
                                 .json({message: 'Error while returning'})
                         })
