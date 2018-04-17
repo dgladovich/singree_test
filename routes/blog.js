@@ -21,7 +21,6 @@ router
         blog
             .findAll({paranoid: false, attributes: {exclude: ['deletedAt']}})
             .then((blogs)=>{
-                console.log('something go wrong')
                 res.json(blogs)
             })
             .catch((e)=>{
