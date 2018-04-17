@@ -12,8 +12,19 @@ module.exports = (sequelize, DataTypes) => {
                 notNull: true,
             }
         },
-        articleId: DataTypes.STRING,
-        text: DataTypes.STRING,
+        articleId: {
+            type: DataTypes.STRING,
+            validate: {
+                isAlphanumeric: true,
+                notNull: true,
+            }
+        },
+        text: {
+            type: DataTypes.STRING,
+            validate: {
+                notNull: true,
+            }
+        },
         parentId: DataTypes.STRING,
         status: DataTypes.STRING,
         __v: DataTypes.STRING,
