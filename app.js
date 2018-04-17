@@ -2,6 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+let expressValidation = require('express-validation');
 
 var logger = require('morgan');
 
@@ -37,6 +38,18 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.use((err, req, res, next) => {
+    if (err instanceof expressValidation.ValidationError) {
+        res.status(err.status).json(err);
+    } else {
+        res.status(500)
+            .json({
+                status: err.status,
+                message: err.message
+            });
+    }
 });
 
 module.exports = app;

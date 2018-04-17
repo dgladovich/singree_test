@@ -1,89 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../models');
-const {blog} = db;
+const validate = require('express-validation');
+const validations = require('./validation/blog');
+const blogCtrl = require('../controllers/BlogController');
 
 router
-    .get('/count', (req, res) => {
-        let userParams = req.query;
-        let parameters = Object.
-        blog
-            .count({paranoid: false})
-            .then((count) => {
-                let cnt = {
-                    count: count
-                }
-                res.json(cnt)
-            })
-            .catch((e) => {
-                res.status(500).send({error: 'Error while counting blogs'})
-            })
-    })
-    .get('/', (req, res) => {
-        blog
-            .findAll({paranoid: false, attributes: {exclude: ['deletedAt']}})
-            .then((blogs) => {
-                res.json(blogs)
-            })
-            .catch((e) => {
-                console.error(e);
-                res.status(500).send({error: 'Error while reading blogs from database.'})
-            })
-
-    })
-    .get('/:id', (req, res) => {
-        let id = req.params.id;
-        blog
-            .findOne({paranoid: false, where: {id: id}, attributes: {exclude: ['deletedAt']}})
-            .then((blg) => {
-                res.json(blg);
-            })
-            .catch((e) => {
-                console.error(e);
-                res.status(500).send({error: 'Error while reading blog by ID.'})
-            })
-    })
-    .post('/', (req, res) => {
-        let blogBody = req.body;
-
-        blog
-            .create(blogBody, { attributes: {exclude: ['id', 'createdAt', 'updatedAt', 'deletedAt']} })
-            .then((blg) => {
-                res.json(blg);
-            })
-            .catch((e) => {
-                console.error(e);
-                res.status(500).send({error: 'Error while writing blog to database.'})
-            })
-    })
-    .put('/:id', (req, res) => {
-        let updateFields = req.body;
-        let blogId = req.params.id;
-
-
-        blog
-            .update(updateFields, {where: {id: blogId}, paranoid: false, returning: true})
-            .then((blg) => {
-                res.json(blg[1][0]);
-            })
-            .catch((e) => {
-                console.error(e);
-                res.status(500).send({error: 'Error while updating blog in database.'})
-            })
-    })
-    .delete('/:id', (req, res) => {
-        let blogId = req.params.id;
-
-        blog
-            .destroy({where: {id: blogId}})
-            .then((blg) => {
-                res.json(blg[1][0]);
-            })
-            .catch((e) => {
-                console.error(e);
-                res.status(500).send({error: 'Error while deleting blog from database.'})
-            })
-    })
+    .get('/count', validate(validations.countBlogs), blogCtrl.countBlogs)
+    .get('/', validate(validations.getAllBlogs), blogCtrl.getAllBlogs)
+    .get('/:id', validate(validations.getBlogById), blogCtrl.getBlogById)
+    .post('/', validate(validations.createBlog), blogCtrl.createBlog)
+    .put('/:id', validate(validations.updateBlogById), blogCtrl.updateBlogById)
+    .delete('/:id', validate(validations.deleteBlogById), blogCtrl.deleteBlogById);
 
 
 module.exports = router;

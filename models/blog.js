@@ -20,6 +20,11 @@ module.exports = (sequelize, DataTypes) => {
         defaultScope: {
             attributes: { exclude: ['id', 'label', 'createdAt', 'updatedAt', 'deletedAt'] }
         },
+        hooks: {
+          beforeDestroy: (b, opts)=>{
+              blog.update({ status: 'deleted' }, { where: {id: opts.where.id}, paranoid: false })
+          }
+        },
         getterMethods: {
             label() {
                 const title = this.getDataValue('title');
