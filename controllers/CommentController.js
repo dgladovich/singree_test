@@ -1,5 +1,5 @@
 const db = require('../models');
-const { comment } = db;
+const {comment} = db;
 
 module.exports = {
     countComments(req, res) {
@@ -50,9 +50,13 @@ module.exports = {
     getCommentById(req, res) {
         let id = req.params.id;
         comment
-            .findOne({paranoid: false, where: {_id: id}, attributes: {exclude: ['deletedAt']}})
-            .then((blg) => {
-                res.json(blg);
+            .findOne({where: {_id: id}, attributes: {exclude: ['deletedAt']}})
+            .then((cmnt) => {
+                if (cmnt == null) {
+                    res.status(404).send('404 page');
+                } else {
+                    res.json(cmnt);
+                }
             })
             .catch((e) => {
                 console.error(e);
@@ -64,8 +68,8 @@ module.exports = {
 
         comment
             .create(commentBody, {attributes: {exclude: ['id', 'createdAt', 'updatedAt', 'deletedAt']}})
-            .then((blg) => {
-                res.json(blg);
+            .then((cmnt) => {
+                res.json(cmnt);
             })
             .catch((e) => {
                 console.error(e);
@@ -79,8 +83,8 @@ module.exports = {
 
         comment
             .update(updateFields, {where: {_id: commentId}, paranoid: false, returning: true})
-            .then((blg) => {
-                res.json(blg[1][0]);
+            .then((cmnt) => {
+                res.json(cmnt[1][0]);
             })
             .catch((e) => {
                 console.error(e);
@@ -92,8 +96,8 @@ module.exports = {
 
         comment
             .destroy({where: {_id: commentId}, individualHooks: true})
-            .then((blg) => {
-                if (!blg) {
+            .then((cmnt) => {
+                if (!cmnt) {
                     res.status(404)
                 } else {
                     comment

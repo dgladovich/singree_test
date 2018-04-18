@@ -50,9 +50,14 @@ module.exports = {
     getBlogById(req, res) {
         let id = req.params.id;
         blog
-            .findOne({paranoid: false, where: {_id: id}, attributes: {exclude: ['deletedAt']}})
+            .findOne({ where: {_id: id}, attributes: {exclude: ['deletedAt']}})
             .then((blg) => {
-                res.json(blg);
+                if (blg == null) {
+                    res.status(404).send('404 page');
+                } else {
+                    blg.body = entities.encode(blg.body);
+                    res.json(blg);
+                }
             })
             .catch((e) => {
                 console.error(e);

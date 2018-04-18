@@ -1,4 +1,7 @@
 'use strict';
+
+
+
 module.exports = (sequelize, DataTypes) => {
     var blog = sequelize.define('blog', {
         _id: {
