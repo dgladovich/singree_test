@@ -7,23 +7,12 @@ module.exports = (sequelize, DataTypes) => {
         },
         author: {
             type: DataTypes.STRING,
-            validate: {
-                isAlphanumeric: true,
-                notNull: true,
-            }
         },
         articleId: {
-            type: DataTypes.STRING,
-            validate: {
-                isAlphanumeric: true,
-                notNull: true,
-            }
+            type: DataTypes.UUID,
         },
         text: {
             type: DataTypes.STRING,
-            validate: {
-                notNull: true,
-            }
         },
         parentId: DataTypes.STRING,
         status: DataTypes.STRING,
@@ -43,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     comment.associate = function (models) {
         let {blog} = models;
 
-        comment.belongsTo(blog, {as: 'blog', foreignKey: 'articleId'});
+        comment.belongsTo(blog, {as: 'blog', foreignKey: 'articleId', onDelete: 'cascade'});
         comment.belongsTo(comment, {as: 'childComment', foreignKey: 'parentId'});
     };
     return comment;

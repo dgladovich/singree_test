@@ -9,13 +9,13 @@ module.exports = {
                 type: Sequelize.INTEGER
             },
             _id: {
-                type: Sequelize.STRING
+                type: Sequelize.UUID
             },
             author: {
                 type: Sequelize.STRING
             },
             articleId: {
-                type: Sequelize.STRING
+                type: Sequelize.UUID
             },
             text: {
                 type: Sequelize.STRING

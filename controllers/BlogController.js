@@ -1,5 +1,7 @@
 const db = require('../models');
-const {blog} = db;
+const {blog, comment} = db;
+const Entities = require('html-entities').AllHtmlEntities;
+const entities = new Entities();
 
 module.exports = {
     countBlogs(req, res) {
@@ -40,6 +42,7 @@ module.exports = {
                 }
             })
             .then((blogs) => {
+                blogs.forEach((blog)=>{console.log(blog)})
                 res.json(blogs)
             })
             .catch((e) => {
@@ -56,6 +59,9 @@ module.exports = {
                     res.status(404).send('404 page');
                 } else {
                     blg.body = entities.encode(blg.body);
+                    delete blg.body.id;
+                    delete blg.body.createdAt;
+
                     res.json(blg);
                 }
             })
@@ -68,8 +74,12 @@ module.exports = {
         let blogBody = req.body;
 
         blog
-            .create(blogBody, {attributes: {exclude: ['id', 'createdAt', 'updatedAt', 'deletedAt']}})
+            .create(blogBody, {attributes: {exclude: ['updatedAt', 'deletedAt']}})
             .then((blg) => {
+                blg.body = entities.encode(blg.body);
+                delete blg.body.id;
+                delete blg.body.createdAt;
+
                 res.json(blg);
             })
             .catch((e) => {
@@ -85,6 +95,7 @@ module.exports = {
         blog
             .update(updateFields, {where: {_id: blogId}, paranoid: false, returning: true})
             .then((blg) => {
+
                 res.json(blg[1][0]);
             })
             .catch((e) => {
@@ -94,7 +105,7 @@ module.exports = {
     },
     deleteBlogById(req, res) {
         let blogId = req.params.id;
-
+        comment.destroy({ where: { articleId: blogId} });
         blog
             .destroy({where: {_id: blogId}, individualHooks: true})
             .then((blg) => {
@@ -104,6 +115,10 @@ module.exports = {
                     blog
                         .findOne({where: {_id: blogId}, paranoid: false})
                         .then((b) => {
+                            b.body = entities.encode(blg.body);
+                            delete b.body.id;
+                            delete b.body.createdAt;
+
                             res.json(b);
                         })
                         .catch((e) => {
