@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const { passport } = require('../utils');
 router
     .get('/logout', function (req, res, next) {

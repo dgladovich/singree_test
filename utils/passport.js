@@ -8,11 +8,11 @@ module.exports = {
 
         passport.serializeUser((user, done) => {
             done(null, user.id)
-        })
+        });
         passport.deserializeUser(async (id, done) => {
-            const usr = await user.findOne({where: {id: id}})
+            const usr = await user.findOne({where: {id: id}});
             done(null, user)
-        })
+        });
 
         // Sign in with username and Password
         passport.use('local', new LocalStrategy({
@@ -28,7 +28,7 @@ module.exports = {
                 return done(null, false, {message: 'Incorrect password.'});
             }
             return done(null, usr);
-        }))
+        }));
         return passport;
     },
     isAuthenticated: (req, res, next) => {
@@ -37,4 +37,4 @@ module.exports = {
         }
         res.send(401, { message: 'User not authenticated' });
     },
-}
+};

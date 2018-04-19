@@ -1,16 +1,14 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
 const expressValidation = require('express-validation');
 const session = require('express-session');
-const LocalStrategy = require('passport-local').Strategy;
 const { store, passport } = require('./utils');
-var logger = require('morgan');
+const logger = require('morgan');
+const router = require('./routes/index');
+const app = express();
 
-var router = require('./routes/index');
-
-var app = express();
 
 app.disable('x-powered-by');
 
@@ -28,13 +26,13 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: store
-}))
+}));
 
 /**
  * Passport Local
  */
-app.use(passport.initialize())
-app.use(passport.session())
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', router);
 
